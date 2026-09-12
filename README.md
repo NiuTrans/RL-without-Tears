@@ -23,6 +23,7 @@ We aim to make RL easier to understand for the LLM community. Rather than relyin
 ## Resources
 
 - [Online Website](https://wangclnlp.github.io/RL-without-Tears-site/)
+- [Full PDF](rl-wiithour-tears.pdf)
 - [Chapter 1: Introduction](chapter/chapter-01-introduction.pdf)
 - [Chapter 2: Preliminary](chapter/chapter-02-preliminary.pdf)
 - [Chapter 3: Understanding RL in LLM Training](chapter/chapter-03-understanding-rl-in-llm-training.pdf)
