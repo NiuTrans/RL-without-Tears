@@ -19,10 +19,12 @@ In this paper, we introduce RL from the perspective of LLM research. We explain 
 
 We aim to make RL easier to understand for the LLM community. Rather than relying on traditional control examples, we use terminology and examples that are familiar to LLM researchers. We hope this paper provides an accessible introduction to RL and helps readers better understand and apply RL techniques in modern foundation models.
 
+## Website
 
-## Resources
+A simple way to access this work is through its [Online Website](https://niutrans.github.io/RL-without-Tears-site/)
 
-- [Online Website](https://niutrans.github.io/RL-without-Tears-site/)
+## PDFs
+
 - [Full PDF](rl-without-tears.pdf)
 - [Chapter 1: Introduction](chapter/chapter-01-introduction.pdf)
 - [Chapter 2: Preliminary](chapter/chapter-02-preliminary.pdf)
