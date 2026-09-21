@@ -25,7 +25,7 @@ We aim to make RL easier to understand for the LLM community. Rather than relyin
 
 ## Website
 
-A simple way to access this work is through our [Online Website](https://niutrans.github.io/RL-without-Tears-site/)
+A simple way to access this work is through our [Online Website](https://niutrans.github.io/RL-without-Tears-site/).
 
 ## PDFs
 
