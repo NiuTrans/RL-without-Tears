@@ -22,7 +22,7 @@ We aim to make RL easier to understand for the LLM community. Rather than relyin
 
 ## Resources
 
-- [Online Website](https://wangclnlp.github.io/RL-without-Tears-site/)
+- [Online Website](https://niutrans.github.io/RL-without-Tears-site/)
 - [Full PDF](rl-without-tears.pdf)
 - [Chapter 1: Introduction](chapter/chapter-01-introduction.pdf)
 - [Chapter 2: Preliminary](chapter/chapter-02-preliminary.pdf)
