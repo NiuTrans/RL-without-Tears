@@ -1,5 +1,9 @@
 # RL without Tears: An Introduction in the Era of LLMs
 
+<div align="center">
+<img src="./cover.png" width="100%" height="100%" />
+</div>
+
 Reinforcement learning (RL) has become an important training paradigm for large language models (LLMs). It is widely used for preference alignment, reasoning, and agentic learning from interaction and feedback. At its core, RL studies how an agent improves its behavior by interacting with an environment and receiving rewards. A standard objective is
 
 ```math
