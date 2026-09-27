@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Glossary - RL without Tears</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css?v=20260911">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script defer src="math.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html">RL without Tears</a>
+      <nav class="topnav" aria-label="Primary navigation">
+        <a href="reader.html">Online Reader</a>
+        <a href="cheatsheet.html">Cheat Sheet</a>
+        <a href="glossary.html">Glossary</a>
+        <a href="index.html#cite">Cite</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" aria-label="Glossary navigation">
+        <nav>
+          <a href="#abbreviations-symbols">Abbreviations & Symbols</a>
+          <a href="#llm-foundations">LLM Foundations</a>
+          <a href="#rl-core">RL Core</a>
+          <a href="#llm-rl">LLM RL</a>
+          <a href="#reward">Rewards</a>
+          <a href="#reasoning">Reasoning</a>
+          <a href="#agents">Agents</a>
+          <a href="#multimodal">Multimodal</a>
+        </nav>
+      </aside>
+
+      <article class="content reader-content">
+        <section class="reader-title">
+          <p class="kicker">Companion material</p>
+          <h1>Glossary</h1>
+          <p>
+            This glossary follows the same progression as the tutorial. It opens with a shared abbreviation and
+            notation guide, then moves through LLM foundations, core RL terms, RLHF, Reward Modeling, Reasoning RL,
+            Agentic RL, and Multimodal RL. The emphasis is on how each RL concept should be interpreted when the
+            policy is an LLM or a related foundation model.
+          </p>
+          <p>
+            Selected entries include references to representative papers or standard background resources. These
+            references are intended as targeted entry points rather than an exhaustive bibliography, and should be
+            read as supplementary material for the main tutorial.
+          </p>
+        </section>
+
+        <section class="glossary-group" id="abbreviations-symbols">
+          <h2>Abbreviations and Symbols</h2>
+          <dl class="glossary-list">
+            <dt>RL</dt>
+            <dd>Reinforcement learning.</dd>
+            <dt>LLM / VLM</dt>
+            <dd>Large language model / vision-language model.</dd>
+            <dt>SFT</dt>
+            <dd>Supervised Fine-Tuning.</dd>
+            <dt>RLHF / RLAIF</dt>
+            <dd>Reinforcement Learning from Human Feedback / Reinforcement Learning from AI Feedback.</dd>
+            <dt>RM / PRM / ORM / VRM</dt>
+            <dd>Reward Model / Process Reward Model / Outcome Reward Model / Visual Reward Model.</dd>
+            <dt>MDP</dt>
+            <dd>Markov Decision Process.</dd>
+            <dt>PPO / GRPO / DPO</dt>
+            <dd>Proximal Policy Optimization / Group Relative Policy Optimization / Direct Preference Optimization.</dd>
+            <dt>TD / GAE</dt>
+            <dd>Temporal Difference / Generalized Advantage Estimation.</dd>
+            <dt>KL</dt>
+            <dd>Kullback-Leibler divergence or the KL-based regularization term used to keep a policy close to a reference policy.</dd>
+            <dt>MCTS / UCT / OPD</dt>
+            <dd>Monte Carlo Tree Search / Upper Confidence Bounds applied to Trees / On-Policy Distillation.</dd>
+            <dt>\(\mathbf{x}\), \(\mathbf{y}\), and \(y_t\)</dt>
+            <dd>\(\mathbf{x}\) denotes an input or prompt sequence; \(\mathbf{y}\) denotes a generated output sequence; \(y_t\) denotes the token generated at step \(t\).</dd>
+            <dt>\(\mathcal{V}\)</dt>
+            <dd>The vocabulary, or finite set of tokens the model can generate.</dd>
+            <dt>\(\mathbf{y}_w\) and \(\mathbf{y}_l\)</dt>
+            <dd>The preferred and rejected output sequences in pairwise preference data. The subscript \(w\) means winner, and \(l\) means loser.</dd>
+            <dt>\(s_t\), \(a_t\), and \(\tau\)</dt>
+            <dd>\(s_t\) is the state at step \(t\), \(a_t\) is the action, and \(\tau\) is the full trajectory.</dd>
+            <dt>\(\mathrm{Pr}_{\theta}\) and \(\pi_{\theta}\)</dt>
+            <dd>\(\mathrm{Pr}_{\theta}\) is used for LLM token or sequence probability. \(\pi_{\theta}\) is used when the same model is viewed as an RL policy.</dd>
+            <dt>\(\theta_{\mathrm{old}}\) and \(\theta_{\mathrm{ref}}\)</dt>
+            <dd>\(\theta_{\mathrm{old}}\) denotes the policy parameters that generated sampled data. \(\theta_{\mathrm{ref}}\) denotes the fixed reference model used for KL regularization.</dd>
+            <dt>\(r_t\), \(R\), \(V\), \(Q\), and \(A\)</dt>
+            <dd>\(r_t\) is step reward, \(R\) is trajectory-level return or reward, \(V\) is state value, \(Q\) is action value, and \(A\) is advantage.</dd>
+          </dl>
+        </section>
+
+        <section class="glossary-group" id="llm-foundations">
+          <h2>LLM Foundations</h2>
+          <dl class="glossary-list">
+            <dt>Token</dt>
+            <dd>The basic unit processed by an LLM. A token may be a word, subword, punctuation mark, whitespace fragment, or another piece produced by the tokenizer. In the tutorial notation, inputs and outputs are represented as token sequences such as <span class="math"><span class="math-vector">z</span> = z<sub>1</sub>...z<sub>N</sub></span>.</dd>
+            <dt>Vocabulary</dt>
+            <dd>The finite set of tokens an LLM can read and generate, usually written as \(\mathcal{V}\). At each generation step, the model outputs a probability distribution over this vocabulary.</dd>
+            <dt>Decoder-only Transformer</dt>
+            <dd>A Transformer language model that generates text from left to right using causal self-attention. The prediction at each position can attend only to previous tokens, which matches the autoregressive factorization used throughout the tutorial.<p class="reading-note"><span>[1]</span> <span class="paper-title">Improving Language Understanding by Generative Pre-Training</span> OpenAI 2018 <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank" rel="noopener">paper</a>, Alec Radford, Karthik Narasimhan et al.</p></dd>
+            <dt>Autoregressive Generation</dt>
+            <dd>The process of generating an output sequence one token at a time, appending each selected token to the context before predicting the next. Given an input sequence <span class="math"><span class="math-vector">x</span></span>, the output probability is factorized as <span class="math"><span style="font-style: normal;">Pr</span><sub>θ</sub>(<span class="math-vector">y</span>|<span class="math-vector">x</span>)=∏<sub>t=1</sub><sup>T</sup><span style="font-style: normal;">Pr</span><sub>θ</sub>(y<sub>t</sub>|<span class="math-vector">x</span>,<span class="math-vector">y</span><sub>&lt;t</sub>)</span>. This is the foundation for mapping LLM generation to sequential decision-making.<p class="reading-note"><span>[1]</span> <span class="paper-title">Attention Is All You Need</span> NeurIPS 2017 <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">paper</a>, Ashish Vaswani, Noam Shazeer et al.</p></dd>
+            <dt>Pre-training</dt>
+            <dd>The first stage of building most LLMs, where the model learns general language capabilities from large-scale text using next-token prediction. Pre-training gives the model broad linguistic and factual knowledge, but it does not by itself teach the model to follow a user's instruction or produce a task-specific response format.<p class="reading-note"><span>[1]</span> <span class="paper-title">Improving Language Understanding by Generative Pre-Training</span> OpenAI 2018 <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank" rel="noopener">paper</a>, Alec Radford, Karthik Narasimhan et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">Language Models are Unsupervised Multitask Learners</span> OpenAI 2019 <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank" rel="noopener">paper</a>, Alec Radford, Jeffrey Wu et al.</p></dd>
+            <dt>Prompt</dt>
+            <dd>The input text given to an LLM to guide its output. A prompt may contain an instruction, user-provided content, output requirements, demonstrations, or formatting constraints. In the tutorial, the prompt sequence is written as <span class="math"><span class="math-vector">x</span>=x<sub>1</sub>...x<sub>m</sub></span>, and the model generates an output sequence <span class="math"><span class="math-vector">y</span></span> conditioned on it.</dd>
+            <dt>Prompt Template</dt>
+            <dd>A reusable prompt pattern with placeholders that are filled before the prompt is sent to the model. Templates make it possible to keep the task framing fixed while varying the concrete input content.</dd>
+            <dt>In-context Learning</dt>
+            <dd>A prompting technique where examples are placed in the context so the model can infer the desired input-output pattern without parameter updates. In-context learning changes the conditioning context, not the model weights.</dd>
+            <dt>Supervised Fine-Tuning (SFT)</dt>
+            <dd>A post-training stage that adapts a pretrained LLM using labeled input-output pairs. The loss is usually computed on output tokens while the input tokens provide context. SFT teaches the model to follow instructions and often serves as the initial policy for RL training.</dd>
+            <dt>Inference</dt>
+            <dd>The process of applying a trained LLM to generate outputs for new inputs. At each step, the model predicts a next-token distribution, a decoding strategy selects a token, and generation continues until an end condition is reached.</dd>
+            <dt>Decoding Strategy</dt>
+            <dd>The rule used to select the next token from the model's predicted distribution. Greedy decoding selects the highest-probability token; beam search keeps multiple candidate prefixes; sampling draws from the distribution, often with temperature, top-k, or top-p filtering. Sampling is especially close to policy sampling in RL.<p class="reading-note"><span>[1]</span> <span class="paper-title">Hierarchical Neural Story Generation</span> ACL 2018 <a href="https://arxiv.org/abs/1805.04833" target="_blank" rel="noopener">paper</a>, Angela Fan, Mike Lewis, Yann Dauphin.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">The Curious Case of Neural Text Degeneration</span> ICLR 2020 <a href="https://arxiv.org/abs/1904.09751" target="_blank" rel="noopener">paper</a>, Ari Holtzman, Jan Buys et al.</p></dd>
+          </dl>
+        </section>
+
+        <section class="glossary-group" id="rl-core">
+          <h2>RL Core</h2>
+          <dl class="glossary-list">
+            <dt>Markov Decision Process (MDP)</dt>
+            <dd>A mathematical framework for sequential decision-making. An agent observes a state, chooses an action, receives reward, and transitions to a new state. In LLM RL, the state can be the prompt plus generated prefix, the action can be the next token, and the trajectory can be the generated output or a longer interaction.</dd>
+            <dt>Agent</dt>
+            <dd>The learner or decision-maker in RL. In the context of LLMs, the agent is usually the language model itself. It generates tokens, answers, tool calls, or interaction steps, and its behavior is optimized according to feedback associated with these decisions.</dd>
+            <dt>Environment</dt>
+            <dd>The external process that receives actions and returns observations or rewards. For LLMs, the environment may be a reward model, verifier, simulator, tool system, code runner, browser, or multi-turn task environment. It specifies the interaction structure and the feedback available to the agent.</dd>
+            <dt>State</dt>
+            <dd>The information available when a decision is made. In standard RL, a state summarizes the relevant situation for action selection. For LLMs, it is often the input prompt together with previously generated tokens, tool observations, and conversation history.</dd>
+            <dt>Action</dt>
+            <dd>The decision made by the policy at a given state. In standard LLM generation, the action is naturally the next token. In agentic settings, it may be a tool call, an argument string, a search query, a code edit, or a higher-level interaction step.</dd>
+            <dt>Policy</dt>
+            <dd>A distribution over actions conditioned on the current state. Written compactly, a policy is often denoted as <span class="math">π(a | s)</span>, the probability of choosing action <span class="math">a</span> in state <span class="math">s</span>. An LLM policy assigns probabilities to next tokens or, in agent settings, to higher-level actions such as tool use.</dd>
+            <dt>Trajectory</dt>
+            <dd>A sequence of states, actions, and often rewards generated under a policy. A common notation is <span class="math">τ = (s<sub>0</sub>, a<sub>0</sub>, r<sub>1</sub>, s<sub>1</sub>, ...)</span>. In LLMs, a trajectory may be a completion, a reasoning trace, a denoising path, or a multi-turn agent interaction.</dd>
+            <dt>Return</dt>
+            <dd>The cumulative reward collected along a trajectory. It is the quantity the policy is ultimately trained to maximize. A standard discounted return is <span class="math">G<sub>t</sub> = r<sub>t+1</sub> + γr<sub>t+2</sub> + γ<sup>2</sup>r<sub>t+3</sub> + ...</span>.</dd>
+            <dt>Discount Factor</dt>
+            <dd>A coefficient, usually written <span class="math">γ</span>, that controls how much future rewards contribute to return. Smaller values emphasize near-term rewards, while larger values give more weight to delayed outcomes. In many LLM tasks with short completions, discounting is less central than in robotics or games, but it remains relevant whenever early decisions affect later quality.<p class="reading-note"><span>[1]</span> <span class="paper-title">Markov Decision Process</span> Wiki <a href="https://en.wikipedia.org/wiki/Markov_decision_process" target="_blank" rel="noopener">wiki</a></p></dd>
+            <dt>Value Function</dt>
+            <dd>An estimate of expected future return from a state or state-action pair. The state-value function is often written <span class="math">V(s)</span>, while the action-value function is written <span class="math">Q(s, a)</span>. In LLM RL, a value model is often used as a baseline for advantage estimation, helping the optimizer distinguish genuinely high-quality sampled behavior from behavior that benefits from prompt-specific difficulty variation.<p class="reading-note"><span>[1]</span> <span class="paper-title">Reinforcement Learning: An Introduction</span> MIT Press 2018 <a href="http://incompleteideas.net/book/the-book-2nd.html" target="_blank" rel="noopener">book</a>, Richard S. Sutton, Andrew G. Barto.</p></dd>
+            <dt>Critic</dt>
+            <dd>A model that estimates values or advantages for policy optimization. In actor-critic language, the policy is the actor because it chooses actions, while the critic comments on whether those choices look better or worse than expected. The critic is not necessarily judging the final answer directly; it is often estimating a learning signal that makes policy updates less noisy. In PPO-style LLM RL, it is often implemented as a value head attached to a language-model backbone and trained alongside the policy.<p class="reading-note"><span>[1]</span> <span class="paper-title">Actor-Critic Algorithms</span> NeurIPS 1999 <a href="https://proceedings.neurips.cc/paper_files/paper/1999/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf" target="_blank" rel="noopener">paper</a>, Vijay R. Konda, John N. Tsitsiklis.</p></dd>
+            <dt>Advantage</dt>
+            <dd>The difference between the value of an action and the expected value of the state, often written <span class="math">A(s, a) = Q(s, a) - V(s)</span>. It indicates whether a sampled token or action is better or worse than the baseline behavior expected at that state, and is therefore central to variance reduction in policy-gradient methods.<p class="reading-note"><span>[1]</span> <span class="paper-title">Policy Gradient Methods for Reinforcement Learning with Function Approximation</span> NeurIPS 1999 <a href="https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf" target="_blank" rel="noopener">paper</a>, Richard S. Sutton, David McAllester et al.</p></dd>
+            <dt>Monte Carlo Estimate</dt>
+            <dd>An estimate computed from sampled complete trajectories. It uses the observed return directly after the trajectory has finished. Monte Carlo estimates can reduce bias, but often have high variance, especially for long LLM outputs or multi-step agent interactions.</dd>
+            <dt>Temporal Difference</dt>
+            <dd>An estimate that updates value or advantage using the next predicted value before the full trajectory is complete. A basic temporal-difference error can be written as <span class="math">δ<sub>t</sub> = r<sub>t</sub> + γV(s<sub>t+1</sub>) - V(s<sub>t</sub>)</span>. Temporal-difference methods reduce variance by bootstrapping from a value model, but may introduce bias when the value estimate is inaccurate.</dd>
+            <dt>Generalized Advantage Estimation (GAE)</dt>
+            <dd>Generalized Advantage Estimation. A recursive estimator that mixes temporal-difference residuals across future steps, controlled by discount and smoothing parameters to balance bias and variance. Its key smoothing parameter, often written <span class="math">λ</span>, interpolates between short-horizon bootstrapping and long-horizon Monte Carlo estimation.<p class="reading-note"><span>[1]</span> <span class="paper-title">High-Dimensional Continuous Control Using Generalized Advantage Estimation</span> ICLR 2016 <a href="https://arxiv.org/abs/1506.02438" target="_blank" rel="noopener">paper</a>, John Schulman, Philipp Moritz et al.</p></dd>
+          </dl>
+        </section>
+
+        <section class="glossary-group" id="llm-rl">
+          <h2>LLM RL</h2>
+          <dl class="glossary-list">
+            <dt>RLHF</dt>
+            <dd>Reinforcement Learning from Human Feedback. Human preference data is commonly used to train a reward model, which then provides feedback for optimizing the policy.<p class="reading-note"><span>[1]</span> <span class="paper-title">Deep Reinforcement Learning from Human Preferences</span> NeurIPS 2017 <a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">paper</a>, Paul F. Christiano, Jan Leike et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">Learning to Summarize from Human Feedback</span> NeurIPS 2020 <a href="https://arxiv.org/abs/2009.01325" target="_blank" rel="noopener">paper</a>, Nisan Stiennon, Long Ouyang et al.</p><p class="reading-note"><span>[3]</span> <span class="paper-title">Training Language Models to Follow Instructions with Human Feedback</span> NeurIPS 2022 <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">paper</a>, Long Ouyang, Jeffrey Wu et al.</p></dd>
+            <dt>RLAIF</dt>
+            <dd>Reinforcement Learning from AI Feedback. Instead of relying only on human annotations, AI systems provide preference labels, critiques, scores, or rewards to scale feedback collection.<p class="reading-note"><span>[1]</span> <span class="paper-title">RLAIF vs. RLHF: Scaling Reinforcement Learning from Human Feedback with AI Feedback</span> arXiv 2023 <a href="https://arxiv.org/abs/2309.00267" target="_blank" rel="noopener">paper</a>, Harrison Lee, Samrat Phatale et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">Constitutional AI: Harmlessness from AI Feedback</span> arXiv 2022 <a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">paper</a>, Yuntao Bai, Saurav Kadavath et al.</p></dd>
+            <dt>Reference Policy</dt>
+            <dd>A fixed or slowly updated policy used to regularize the trained model. In LLM RL, this is often the supervised fine-tuned model before RL begins. The reference policy constrains optimization so that reward improvement does not substantially degrade language quality, style, or instruction-following behavior.</dd>
+            <dt>Kullback-Leibler Penalty (KL Penalty)</dt>
+            <dd>A penalty based on the distance between the trained policy and the reference policy. In RLHF, it helps preserve language quality while the model optimizes reward. A compact objective is often described as maximizing reward while subtracting a term such as <span class="math">β KL(π || π<sub>ref</sub>)</span>, where <span class="math">β</span> controls the strength of regularization.<p class="reading-note"><span>[1]</span> <span class="paper-title">Training Language Models to Follow Instructions with Human Feedback</span> NeurIPS 2022 <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">paper</a>, Long Ouyang, Jeffrey Wu et al.</p></dd>
+            <dt>Policy Drift</dt>
+            <dd>The movement of the trained policy away from the reference or data-generating policy. Some drift is necessary for optimization, but excessive drift can produce behavior that receives high reward model scores while degrading the intended quality of the model output.</dd>
+            <dt>Rollout</dt>
+            <dd>A sampled output or interaction trajectory generated by a policy. In LLM RL, rollouts provide the behaviors that are scored by rewards and then used for policy updates. For a chat model, a rollout may be one answer; for a reasoning model, it may include a chain of intermediate steps; for an agent, it may include tool calls and observations.</dd>
+            <dt>On-policy</dt>
+            <dd>Training with samples generated by the current policy or a very recent version of it. This reduces mismatch between the data distribution and the policy being optimized, which is important when policy updates substantially change the model's behavior.</dd>
+            <dt>Off-policy</dt>
+            <dd>Training with samples generated by a different policy. This can reuse old data efficiently, but the samples may no longer match the current policy. Methods such as importance sampling are often used to correct for this distribution mismatch.</dd>
+            <dt>Proximal Policy Optimization (PPO)</dt>
+            <dd>Proximal Policy Optimization. A policy-gradient method that stabilizes updates by limiting how much the new policy can change relative to the policy that produced the data. PPO commonly uses a clipped probability ratio that compares <span class="math">π<sub>new</sub>(a | s)</span> with <span class="math">π<sub>old</sub>(a | s)</span>, thereby preventing overly large policy updates. This made PPO a common choice for PPO-style RLHF pipelines.<p class="reading-note"><span>[1]</span> <span class="paper-title">Proximal Policy Optimization Algorithms</span> arXiv 2017 <a href="https://arxiv.org/abs/1707.06347" target="_blank" rel="noopener">paper</a>, John Schulman, Filip Wolski et al.</p></dd>
+            <dt>Group Relative Policy Optimization (GRPO)</dt>
+            <dd>Group Relative Policy Optimization. A method that estimates relative advantages among multiple responses sampled for the same prompt, avoiding the need for a separate value model. GRPO evaluates each response relative to other responses in the same prompt group, which is especially natural for reasoning tasks where several sampled solutions can be checked or scored together.<p class="reading-note"><span>[1]</span> <span class="paper-title">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</span> arXiv 2024 <a href="https://arxiv.org/abs/2402.03300" target="_blank" rel="noopener">paper</a>, Zhihong Shao, Peiyi Wang et al.</p></dd>
+            <dt>Group-relative Advantage</dt>
+            <dd>An advantage estimate computed by comparing each response with other responses sampled for the same prompt. The group reward distribution acts as a prompt-specific baseline. A common implementation normalizes each reward by the group's mean and standard deviation, so a response receives positive advantage when it outperforms other samples in the group and negative advantage when it underperforms.<p class="reading-note"><span>[1]</span> <span class="paper-title">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</span> arXiv 2024 <a href="https://arxiv.org/abs/2402.03300" target="_blank" rel="noopener">paper</a>, Zhihong Shao, Peiyi Wang et al.</p></dd>
+            <dt>Direct Preference Optimization (DPO)</dt>
+            <dd>Direct Preference Optimization. A preference learning method that trains the policy directly from chosen and rejected responses, without explicitly training a separate reward model in the basic pipeline. The objective increases the likelihood of preferred responses relative to rejected responses while regularizing the policy toward a reference model. Compared with PPO-style RLHF, DPO can be viewed as supervised preference learning with an underlying RL interpretation.<p class="reading-note"><span>[1]</span> <span class="paper-title">Direct Preference Optimization: Your Language Model is Secretly a Reward Model</span> NeurIPS 2023 <a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener">paper</a>, Rafael Rafailov, Archit Sharma et al.</p></dd>
+            <dt>Implicit Reward</dt>
+            <dd>The log-probability-ratio reward induced by direct preference methods such as DPO. It replaces an explicit learned reward model with a reward implied by policy and reference model likelihoods.<p class="reading-note"><span>[1]</span> <span class="paper-title">A General Theoretical Paradigm to Understand Learning from Human Preferences</span> AISTATS 2024 <a href="https://arxiv.org/abs/2310.12036" target="_blank" rel="noopener">paper</a>, Mohammad Gheshlaghi Azar, Mark Rowland et al.</p></dd>
+          </dl>
+        </section>
+
+        <section class="glossary-group" id="reward">
+          <h2>Rewards</h2>
+          <dl class="glossary-list">
+            <dt>Reward Model</dt>
+            <dd>A model that maps an input-output pair to a scalar score. It can be used to rank responses, select the best candidate, or provide reward signals for policy optimization.<p class="reading-note"><span>[1]</span> <span class="paper-title">Learning to Summarize from Human Feedback</span> NeurIPS 2020 <a href="https://arxiv.org/abs/2009.01325" target="_blank" rel="noopener">paper</a>, Nisan Stiennon, Long Ouyang et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback</span> arXiv 2022 <a href="https://arxiv.org/abs/2204.05862" target="_blank" rel="noopener">paper</a>, Yuntao Bai, Andy Jones et al.</p></dd>
+            <dt>Preference Pair</dt>
+            <dd>A pair of candidate responses where one is labeled preferred over the other. Pairwise preference data is often more reliable to collect than absolute numerical scores.</dd>
+            <dt>Outcome Reward</dt>
+            <dd>A reward assigned to the final output or final task result. It is useful when correctness can be verified at the end, but can be sparse for long reasoning chains.</dd>
+            <dt>Process Reward</dt>
+            <dd>A reward assigned to intermediate reasoning steps or subgoals. It provides denser feedback than an outcome reward and can help with credit assignment in long trajectories.<p class="reading-note"><span>[1]</span> <span class="paper-title">Let's Verify Step by Step</span> ICLR 2024 <a href="https://arxiv.org/abs/2305.20050" target="_blank" rel="noopener">paper</a>, Hunter Lightman, Vineet Kosaraju et al.</p></dd>
+            <dt>Rule-based Reward</dt>
+            <dd>A reward computed by deterministic checks such as exact answer matching, unit tests, formatting rules, or program execution. These rewards can be especially stable when the desired behavior is verifiable.</dd>
+            <dt>Rubric Reward</dt>
+            <dd>A reward produced by evaluating responses against explicit criteria such as correctness, clarity, safety, or completeness. Rubrics make the evaluation dimensions more transparent than a single opaque preference label.</dd>
+            <dt>Generative Reward Model</dt>
+            <dd>A reward model that frames judgment as generation, such as predicting a preference label or explanation token with an LLM. This lets the reward model reuse instruction-following and reasoning abilities.<p class="reading-note"><span>[1]</span> <span class="paper-title">Generative Reward Models</span> arXiv 2024 <a href="https://arxiv.org/abs/2410.12832" target="_blank" rel="noopener">paper</a>, Dakota Mahan, Duy Van Phung et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">GRAM-R<sup>2</sup>: Self-Training Generative Foundation Reward Models for Reward Reasoning</span> arXiv 2025 <a href="https://arxiv.org/abs/2509.02492" target="_blank" rel="noopener">paper</a>, Chenglong Wang, Yongyu Mu et al.</p></dd>
+            <dt>Reward Generalization</dt>
+            <dd>The ability of a reward model or reward rule to remain reliable when the policy generates outputs outside the original training distribution. It matters because policy optimization can move into new behavior regions during training.<p class="reading-note"><span>[1]</span> <span class="paper-title">Regularizing Hidden States Enables Learning Generalizable Reward Model for LLMs</span> NeurIPS 2024 <a href="https://arxiv.org/abs/2406.10216" target="_blank" rel="noopener">paper</a>, Rui Yang, Ruomeng Ding et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">GRAM: A Generative Foundation Reward Model for Reward Generalization</span> ICML 2025 <a href="https://arxiv.org/abs/2506.14175" target="_blank" rel="noopener">paper</a>, Chenglong Wang, Yang Gan et al.</p></dd>
+            <dt>Reward Shaping</dt>
+            <dd>The practice of adding intermediate or auxiliary rewards to provide denser learning signals. In LLM reasoning or agent tasks, shaping can provide feedback before the final answer or task outcome is known.<p class="reading-note"><span>[1]</span> <span class="paper-title">Policy Invariance under Reward Transformations: Theory and Application to Reward Shaping</span> ICML 1999 <a href="https://people.eecs.berkeley.edu/~russell/papers/icml99-shaping.pdf" target="_blank" rel="noopener">paper</a>, Andrew Y. Ng, Daishi Harada, Stuart Russell.</p></dd>
+            <dt>Potential-based Shaping</dt>
+            <dd>A form of reward shaping that adds differences of a potential function. Its appeal is that it can provide intermediate feedback while preserving the intended optimal policy under suitable conditions.</dd>
+            <dt>Reward Hacking</dt>
+            <dd>A failure mode where the policy exploits flaws in the reward instead of improving the intended behavior. It is especially concerning when the reward model can be optimized in ways that diverge from the true task objective.<p class="reading-note"><span>[1]</span> <span class="paper-title">Reward Hacking</span> Wiki <a href="https://en.wikipedia.org/wiki/Reward_hacking" target="_blank" rel="noopener">wiki</a></p></dd>
+            <dt>Overoptimization</dt>
+            <dd>A failure mode where continued optimization improves reward model score but degrades the true intended quality. In preference learning, this can happen when the policy learns artifacts of the reward model or dataset.<p class="reading-note"><span>[1]</span> <span class="paper-title">Scaling Laws for Reward Model Overoptimization</span> ICML 2023 <a href="https://arxiv.org/abs/2210.10760" target="_blank" rel="noopener">paper</a>, Leo Gao, John Schulman, Jacob Hilton.</p></dd>
+          </dl>
+        </section>
+
+        <section class="glossary-group" id="reasoning">
+          <h2>Reasoning</h2>
+          <dl class="glossary-list">
+            <dt>Verifier</dt>
+            <dd>A system that checks whether an answer, program, proof, or intermediate step is correct. In Reasoning RL, verifiers provide more objective feedback than open-ended preference judgments when correctness can be checked.</dd>
+            <dt>Best-of-N</dt>
+            <dd>A test-time method that samples N candidate outputs and selects the best according to a reward model or verifier. It can also motivate rejection sampling, where selected outputs are reused for training.</dd>
+            <dt>Test-time Scaling</dt>
+            <dd>Improving inference by spending more computation on sampling, search, verification, or selection rather than changing model weights. In reasoning tasks, this can help uncover stronger reasoning paths at inference time.</dd>
+            <dt>Process Reward Model</dt>
+            <dd>A reward model that evaluates intermediate steps rather than only the final answer. It is useful when final-answer rewards are too sparse to show where a reasoning path begins to fail.<p class="reading-note"><span>[1]</span> <span class="paper-title">Let's Verify Step by Step</span> ICLR 2024 <a href="https://arxiv.org/abs/2305.20050" target="_blank" rel="noopener">paper</a>, Hunter Lightman, Vineet Kosaraju et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">Solving Math Word Problems with Process- and Outcome-Based Feedback</span> arXiv 2022 <a href="https://arxiv.org/abs/2211.14275" target="_blank" rel="noopener">paper</a>, Jonathan Uesato, Nate Kushman et al.</p></dd>
+            <dt>Outcome Reward Model</dt>
+            <dd>A model or rule that evaluates only the final answer or final task outcome. It is often cheaper to define, but may provide limited guidance for long reasoning or agent trajectories.<p class="reading-note"><span>[1]</span> <span class="paper-title">Solving Math Word Problems with Process- and Outcome-Based Feedback</span> arXiv 2022 <a href="https://arxiv.org/abs/2211.14275" target="_blank" rel="noopener">paper</a>, Jonathan Uesato, Nate Kushman et al.</p></dd>
+            <dt>Monte Carlo Tree Search (MCTS)</dt>
+            <dd>Monte Carlo Tree Search. A search method that explores possible reasoning paths through selection, expansion, simulation, and backpropagation, using verifier or reward feedback to guide exploration.<p class="reading-note"><span>[1]</span> <span class="paper-title">Monte Carlo Tree Search</span> Wiki <a href="https://en.wikipedia.org/wiki/Monte_Carlo_tree_search" target="_blank" rel="noopener">wiki</a></p></dd>
+            <dt>Upper Confidence Bounds Applied to Trees (UCT)</dt>
+            <dd>Upper Confidence bounds applied to Trees. A selection rule in MCTS that balances exploiting high-reward paths with exploring under-visited reasoning steps.</dd>
+            <dt>On-policy Distillation</dt>
+            <dd>A method where the student samples from its current policy and receives teacher distributional supervision at the states it actually visits. This reduces mismatch compared with offline distillation from teacher-generated trajectories.<p class="reading-note"><span>[1]</span> <span class="paper-title">On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes</span> ICLR 2024 <a href="https://openreview.net/forum?id=3zKtaqxLhW" target="_blank" rel="noopener">paper</a>, Rishabh Agarwal, Nino Vieillard et al.</p></dd>
+          </dl>
+        </section>
+
+        <section class="glossary-group" id="agents">
+          <h2>Agents</h2>
+          <dl class="glossary-list">
+            <dt>Agentic RL</dt>
+            <dd>RL for models that learn through multi-step interaction with tools, environments, memory, and observations. The focus shifts from optimizing a single response to optimizing long-horizon decisions and task outcomes.</dd>
+            <dt>Tool Use</dt>
+            <dd>The ability to call external systems such as search, APIs, code interpreters, or databases. In Agentic RL, the model can be rewarded for using tools correctly, efficiently, and only when they help the task.<p class="reading-note"><span>[1]</span> <span class="paper-title">Toolformer: Language Models Can Teach Themselves to Use Tools</span> NeurIPS 2023 <a href="https://arxiv.org/abs/2302.04761" target="_blank" rel="noopener">paper</a>, Timo Schick, Jane Dwivedi-Yu et al.</p></dd>
+            <dt>Credit Assignment</dt>
+            <dd>The problem of deciding which earlier decisions caused a delayed success or failure. It becomes harder in agent tasks because planning choices, tool calls, and observations may affect the final outcome many steps later.</dd>
+            <dt>Memory Management</dt>
+            <dd>The process of storing, updating, deleting, and retrieving useful information from past interactions. RL can train memory operations by rewarding future task success after a memory is used.<p class="reading-note"><span>[1]</span> <span class="paper-title">Memory-R1: Enhancing Large Language Model Agents to Manage and Utilize Memories via Reinforcement Learning</span> ACL 2026 <a href="https://aclanthology.org/2026.acl-long.583/" target="_blank" rel="noopener">paper</a>, Sikuan Yan, Xiufeng Yang et al.</p></dd>
+            <dt>Skill Optimization</dt>
+            <dd>The process of converting repeated successful behavior into reusable skills for future tasks. Skills can serve as high-level behavioral priors that guide later planning and RL exploration.<p class="reading-note"><span>[1]</span> <span class="paper-title">SkillRL: Evolving Agents via Recursive Skill-Augmented Reinforcement Learning</span> arXiv 2026 <a href="https://arxiv.org/abs/2602.08234" target="_blank" rel="noopener">paper</a>, Peng Xia, Jianwen Chen et al.</p></dd>
+            <dt>Environment Synthesis</dt>
+            <dd>The construction or generation of interactive tasks that provide observations, actions, and rewards for agent training. Good environments expose weaknesses in the current policy and create useful interaction data.</dd>
+            <dt>Trajectory-level Reward</dt>
+            <dd>A reward assigned to the whole interaction trajectory, often based on final task success. It is natural for agent tasks, but can be too coarse to explain which intermediate decision mattered.</dd>
+            <dt>Step-level Reward</dt>
+            <dd>A reward assigned to an intermediate plan, tool call, observation response, or subgoal. It supports finer credit assignment when the final trajectory contains many decisions.</dd>
+            <dt>State-based Reward</dt>
+            <dd>A reward computed by checking the final environment state against a task goal, such as whether a database or file system changed correctly. This can be more reliable than judging only the text of the final answer.</dd>
+            <dt>Tool Cost</dt>
+            <dd>A penalty for unnecessary or expensive tool use, such as latency, API cost, extra calls, or computation. It encourages agents to balance tool benefit against interaction cost.</dd>
+          </dl>
+        </section>
+
+        <section class="glossary-group" id="multimodal">
+          <h2>Multimodal</h2>
+          <dl class="glossary-list">
+            <dt>Visual Reward Model</dt>
+            <dd>A reward model that evaluates text responses or generated content with respect to visual inputs, prompts, or visual preferences. It extends RLHF-style feedback to settings where the model must understand images as well as language.<p class="reading-note"><span>[1]</span> <span class="paper-title">Unified Reward Model for Multimodal Understanding and Generation</span> arXiv 2025 <a href="https://arxiv.org/abs/2503.05236" target="_blank" rel="noopener">paper</a>, Yibin Wang, Yuhang Zang et al.</p><p class="reading-note"><span>[2]</span> <span class="paper-title">RoVRM: A Robust Visual Reward Model Optimized via Auxiliary Textual Preference Data</span> AAAI 2025 <a href="https://arxiv.org/abs/2408.12109" target="_blank" rel="noopener">paper</a>, Chenglong Wang, Yang Gan et al.</p></dd>
+            <dt>Diffusion RL</dt>
+            <dd>Reward optimization for diffusion generators, where the denoising process is treated as a trajectory and the final sample receives reward. This lets image generators optimize criteria such as prompt satisfaction or human preference.<p class="reading-note"><span>[1]</span> <span class="paper-title">DPOK: Reinforcement Learning for Fine-Tuning Text-to-Image Diffusion Models</span> NeurIPS 2023 <a href="https://arxiv.org/abs/2305.16381" target="_blank" rel="noopener">paper</a>, Ying Fan, Olivia Watkins et al.</p></dd>
+            <dt>Flow Matching RL</dt>
+            <dd>Reward optimization for flow matching models, often by discretizing the continuous generation path into decision steps. Stochastic sampling can be introduced so policy-gradient or GRPO-style methods can explore trajectories.<p class="reading-note"><span>[1]</span> <span class="paper-title">Flow-GRPO: Training Flow Matching Models via Online RL</span> NeurIPS 2025 <a href="https://arxiv.org/abs/2505.05470" target="_blank" rel="noopener">paper</a>, Jie Liu, Jiajun Wu et al.</p></dd>
+          </dl>
+        </section>
+
+        <nav class="reader-footer" aria-label="Glossary footer">
+          <a href="reader.html">Open the online reader</a>
+          <a href="cheatsheet.html">Open cheat sheet</a>
+        </nav>
+      </article>
+    </main>
+  </body>
+</html>
