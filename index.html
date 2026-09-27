@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="RL without Tears: an introduction to RL in the era of LLMs."
+    >
+    <title>RL without Tears</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css?v=20260911">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html">RL without Tears</a>
+      <nav class="topnav" aria-label="Primary navigation">
+        <a href="reader.html">Online Reader</a>
+        <a href="cheatsheet.html">Cheat Sheet</a>
+        <a href="glossary.html">Glossary</a>
+        <a href="#chapters">Chapters</a>
+        <a href="#materials">Materials</a>
+        <a href="#cite">Cite</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" aria-label="Page navigation">
+        <nav>
+          <a href="#abstract">Abstract</a>
+          <a href="#chapters">Chapters</a>
+          <a href="#materials">Materials</a>
+          <a href="#cite">Citation</a>
+        </nav>
+      </aside>
+
+      <article class="content">
+        <section class="book-hero">
+          <p class="kicker">Companion site &middot; September 2026</p>
+          <h1>RL without Tears</h1>
+          <p class="subtitle">An Introduction in the Era of LLMs</p>
+          <p class="authors">Chenglong Wang<sup>1</sup> &middot; Hang Zhou<sup>1</sup> &middot; Tongran Liu<sup>2</sup> &middot; Jingbo Zhu<sup>1</sup> &middot; Tong Xiao<sup>1</sup></p>
+          <div class="affiliations" aria-label="Author affiliations">
+            <div><sup>1</sup>Northeastern University, China</div>
+            <div><sup>2</sup>Institute of Psychology, Chinese Academy of Sciences, China</div>
+          </div>
+          <div class="action-row" aria-label="Main links">
+            <a href="reader.html">Read online</a>
+            <a href="assets/rl-without-tears.pdf">Download PDF</a>
+            <a href="https://github.com/wangclnlp/RL-without-Tears" target="_blank" rel="noopener">GitHub</a>
+            <a href="#cite">BibTeX</a>
+          </div>
+          <div class="topic-pills" aria-label="Covered topics">
+            <span>RLHF</span>
+            <span>Reward Modeling</span>
+            <span>Reasoning RL</span>
+            <span>Agentic RL</span>
+            <span>Multimodal RL</span>
+          </div>
+        </section>
+
+        <section class="block" id="abstract">
+          <h2>Abstract</h2>
+          <p class="lead">
+            Reinforcement learning has become one of the main languages for explaining modern LLM post-training:
+            it turns generated behavior into trajectories, evaluates that behavior with feedback, and updates the
+            model so better behavior becomes more likely. This tutorial introduces RL from the perspective of LLMs,
+            using prompts, tokens, rewards, verifiers, preference data, and interaction histories as the central
+            objects.
+          </p>
+          <p>
+            The paper is organized as a gradual bridge rather than a catalog of methods. It first reviews the LLM
+            and RL notation needed to see an LLM as a policy. It then derives PPO-style RLHF from a concrete
+            training example, explains why rewards, advantages, importance sampling, and reference models are
+            needed, and only then moves to stronger reward modeling, efficient optimization, DPO, reasoning models,
+            agentic systems, and multimodal generation.
+          </p>
+        </section>
+
+        <section class="block" id="chapters">
+          <h2>Chapters</h2>
+          <ol class="chapter-list">
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#introduction">Introduction</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-01-introduction.pdf" aria-label="Download Chapter 1 PDF">PDF</a>
+              </div>
+              <p>Explains why LLM training increasingly needs feedback over complete behavior, not only token-level demonstrations.</p>
+            </li>
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#preliminaries">Preliminary: LLMs and RL</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-02-preliminary.pdf" aria-label="Download Chapter 2 PDF">PDF</a>
+              </div>
+              <p>Builds the shared notation: autoregressive generation on the LLM side, MDPs and trajectories on the RL side, and the mapping between them.</p>
+            </li>
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#rl-training">Understanding RL in LLM Training</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-03-understanding-rl-in-llm-training.pdf" aria-label="Download Chapter 3 PDF">PDF</a>
+              </div>
+              <p>Starts from a homework-assistant example and derives the PPO-style RLHF workflow step by step: policy gradient, credit assignment, advantages, importance sampling, PPO, and reward models.</p>
+            </li>
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#improved-rl">Improved RL for LLMs</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-04-improved-rl-for-llms.pdf" aria-label="Download Chapter 4 PDF">PDF</a>
+              </div>
+              <p>Revisits the basic workflow and asks what must improve in practice: reward quality, reward sparsity, reward generalization, advantage estimation, training efficiency, and direct preference optimization.</p>
+            </li>
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#reasoning">RL for Reasoning</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-05-rl-for-llm-reasoning.pdf" aria-label="Download Chapter 5 PDF">PDF</a>
+              </div>
+              <p>Shows how verifiable reasoning turns sampling and search into training signals through Best-of-N, process verification, MCTS, iterative RL, large-scale RL, and on-policy distillation.</p>
+            </li>
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#agents">Agentic RL</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-06-agentic-rl.pdf" aria-label="Download Chapter 6 PDF">PDF</a>
+              </div>
+              <p>Extends the same feedback loop to interactive agents, where planning, tool use, environments, credit assignment, memory, skills, and refinement all shape long trajectories.</p>
+            </li>
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#multimodal">Multimodal RL</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-07-multimodal-rl.pdf" aria-label="Download Chapter 7 PDF">PDF</a>
+              </div>
+              <p>Moves beyond text-only policies by discussing visual reward models for understanding and trajectory-style RL for diffusion and flow matching generation.</p>
+            </li>
+            <li>
+              <div class="chapter-title-row">
+                <a href="reader.html#conclusion">Conclusions and Future Directions</a>
+                <a class="chapter-pdf" href="assets/chapters/chapter-08-conclusions-and-future-directions.pdf" aria-label="Download Chapter 8 PDF">PDF</a>
+              </div>
+              <p>Returns to the big picture and highlights open directions: RL for pre-training, cheaper RL, scaling-limit prediction, and continual self-evolving models.</p>
+            </li>
+            <li id="chapters-appendix">
+              <div class="chapter-title-row">
+                <a href="reader.html#systems">Appendix: Systems and Datasets</a>
+                <a class="chapter-pdf" href="assets/chapters/appendix-datasets-and-systems.pdf" aria-label="Download Appendix PDF">PDF</a>
+              </div>
+              <p>Lists RL systems, preference datasets, reasoning data, and agent environments discussed in the paper.</p>
+            </li>
+          </ol>
+        </section>
+
+        <section class="block" id="materials">
+          <h2>Companion Materials</h2>
+          <div class="material-grid">
+            <a class="material" href="reader.html">
+              <span>Online Reader</span>
+              <p>A structured HTML reading path aligned with the tutorial's current chapter order, with summaries, formulas, references, and selected figures.</p>
+            </a>
+            <a class="material" href="cheatsheet.html">
+              <span>Formula Cheat Sheet</span>
+              <p>A one-page reference for the core objectives and estimators.</p>
+            </a>
+            <a class="material" href="glossary.html">
+              <span>Glossary</span>
+              <p>Unified abbreviations, notation, and short definitions for RL, reward modeling, reasoning, and agent terminology.</p>
+            </a>
+            <a class="material" href="reader.html#systems">
+              <span>Systems & Datasets</span>
+              <p>A compact starting point for frameworks, preference data, reasoning data, and agent environments.</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="block" id="cite">
+          <h2>Citation</h2>
+          <pre><code>@misc{wang2026rlwithouttears,
+  title  = {RL without Tears: An Introduction in the Era of LLMs},
+  author = {Chenglong Wang and Hang Zhou and Tongran Liu and Jingbo Zhu and Tong Xiao},
+  year   = {2026},
+  note   = {Companion site}
+}</code></pre>
+        </section>
+      </article>
+    </main>
+
+    <footer class="footer">
+      <span class="footer-copy">Copyright 2026 Wang, Zhou, Liu, Zhu, and Xiao. CC-BY 4.0.</span>
+      <span class="footer-actions">
+        <a href="reader.html">Read online</a>
+        <a class="flag-counter" href="https://info.flagcounter.com/RLWT" target="_blank" rel="noopener" aria-label="View site traffic on Flag Counter">
+          <img src="https://s11.flagcounter.com/mini/RLWT/bg_FFFFFF/txt_43536B/border_CCCCCC/flags_0/" alt="Flag Counter pageviews">
+        </a>
+      </span>
+    </footer>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 # RL without Tears: An Introduction in the Era of LLMs
 
 <div align="center">
-<img src="./cover.png" width="100%" height="100%" />
+<img src="./assets/images/cover.png" width="100%" height="100%" />
 </div>
 
 Reinforcement learning (RL) has become an important training paradigm for large language models (LLMs). It is widely used for preference alignment, reasoning, and agentic learning from interaction and feedback. At its core, RL studies how an agent improves its behavior by interacting with an environment and receiving rewards. A standard objective is
@@ -25,9 +25,9 @@ We aim to make RL easier to understand for the LLM community. Rather than relyin
 
 ## Website
 
-A simple way to access this work is through our [Online Website](https://niutrans.github.io/RL-without-Tears-site/).
+A simple way to access this work is through our [Online Website](https://wangclnlp.github.io/RL-without-Tears/).
 
-![alt text](website.gif)
+![Website preview](assets/images/website.gif)
 
 ## PDFs
 
