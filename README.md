@@ -27,8 +27,6 @@ We aim to make RL easier to understand for the LLM community. Rather than relyin
 
 A simple way to access this work is through our [Online Website](https://wangclnlp.github.io/RL-without-Tears/).
 
-The website source is maintained in [`website/`](website/), so the paper and website can be updated in one repository.
-
 ![alt text](website.gif)
 
 ## PDFs
